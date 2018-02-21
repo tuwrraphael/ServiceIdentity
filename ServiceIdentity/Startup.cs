@@ -52,6 +52,15 @@ namespace ServiceIdentity
             services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddMvc();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
 
             var cert = new X509Certificate2($"{HostingEnvironment.WebRootPath}\\App_Data\\cert.pfx", Configuration["CertPassword"], X509KeyStorageFlags.MachineKeySet |
     X509KeyStorageFlags.PersistKeySet |
@@ -94,6 +103,7 @@ namespace ServiceIdentity
                 app.UseExceptionHandler("/Home/Error");
             }
             DatabaseSetup.InitializeDatabase(app.ApplicationServices.GetService<IServiceScopeFactory>(), true);
+            app.UseCors("CorsPolicy");
             app.UseStaticFiles();
 
             app.UseIdentityServer();
