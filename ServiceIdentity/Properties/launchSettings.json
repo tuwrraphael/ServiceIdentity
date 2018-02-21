@@ -10,11 +10,12 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "https://localhost:44331/",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "CertPassword": "IdentityServer4cert"
+      },
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:44331/"
     },
     "ServiceIdentity": {
       "commandName": "Project",

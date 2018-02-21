@@ -15,6 +15,7 @@ using System.Reflection;
 using IdentityServer4.EntityFramework.DbContexts;
 using IdentityServer4;
 using IdentityServer4.EntityFramework.Mappers;
+using IdentityModel;
 
 namespace ServiceIdentity
 {
@@ -28,8 +29,6 @@ namespace ServiceIdentity
             environment.WebRootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
 
         }
-
-        
 
         public IConfiguration Configuration { get; }
         public IHostingEnvironment HostingEnvironment { get; }
@@ -54,7 +53,9 @@ namespace ServiceIdentity
 
             services.AddMvc();
 
-            var cert = new X509Certificate2(Path.Combine(HostingEnvironment.WebRootPath, "App_Data", "cert.pfx"), "");
+            var cert = new X509Certificate2($"{HostingEnvironment.WebRootPath}\\App_Data\\cert.pfx", Configuration["CertPassword"], X509KeyStorageFlags.MachineKeySet |
+    X509KeyStorageFlags.PersistKeySet |
+    X509KeyStorageFlags.Exportable);
 
             services.AddIdentityServer()
                 .AddSigningCredential(cert)
@@ -92,7 +93,7 @@ namespace ServiceIdentity
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-            InitializeDatabase(app);
+            DatabaseSetup.InitializeDatabase(app.ApplicationServices.GetService<IServiceScopeFactory>(), true);
             app.UseStaticFiles();
 
             app.UseIdentityServer();
