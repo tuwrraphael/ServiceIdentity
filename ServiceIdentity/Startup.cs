@@ -62,9 +62,7 @@ namespace ServiceIdentity
             });
 
 
-            var cert = new X509Certificate2($"{HostingEnvironment.WebRootPath}\\App_Data\\cert.pfx", Configuration["CertPassword"], X509KeyStorageFlags.MachineKeySet |
-    X509KeyStorageFlags.PersistKeySet |
-    X509KeyStorageFlags.Exportable);
+            var cert = new X509Certificate2($"{HostingEnvironment.WebRootPath}\\App_Data\\cert.pfx", Configuration["CertPassword"], X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.Exportable);
 
             services.AddIdentityServer()
                 .AddSigningCredential(cert)
