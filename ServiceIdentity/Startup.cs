@@ -62,10 +62,10 @@ namespace ServiceIdentity
             });
 
 
-            var cert = new X509Certificate2($"{HostingEnvironment.WebRootPath}\\App_Data\\cert.pfx", Configuration["CertPassword"], X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.Exportable);
+            //var cert = new X509Certificate2($"{HostingEnvironment.WebRootPath}\\App_Data\\cert.pfx", Configuration["CertPassword"], X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.Exportable);
 
             services.AddIdentityServer()
-                .AddSigningCredential(cert)
+                //.AddSigningCredential(cert)
                     .AddConfigurationStore(options =>
                     {
                         options.ConfigureDbContext = builder =>
@@ -93,7 +93,6 @@ namespace ServiceIdentity
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
                 app.UseDatabaseErrorPage();
             }
             else
